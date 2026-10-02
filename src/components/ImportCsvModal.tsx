@@ -30,7 +30,7 @@ export default function ImportCsvModal({ onClose }: Props) {
         <div className="px-6 py-5">
           <p className="text-sm text-slate-600">
             Not built yet — flagged here because typing leads in one at a time
-            stops scaling fast. This is what it's planned to do:
+            stops scaling fast. This is what it&apos;s planned to do:
           </p>
           <ul className="mt-3 space-y-2.5">
             {[

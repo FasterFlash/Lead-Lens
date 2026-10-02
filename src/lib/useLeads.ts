@@ -50,6 +50,16 @@ export function useLeads() {
   // triggerAnalysis, so opening/reloading the app during testing never
   // spends free-tier quota on its own. (Stage 2: ship these pre-analyzed
   // from a real backend instead — see task list.)
+  // This effect is a one-time sync from an external system (localStorage)
+  // that can't be read during server render, so it has to happen in an
+  // effect, not a lazy useState initializer — exactly the case React's own
+  // docs call out as legitimate effect use. The lint rule below is a
+  // general heuristic against setState-in-effect causing render loops;
+  // this isn't one (empty deps, runs once, settles after a single extra
+  // render), so it's disabled for this whole effect deliberately rather
+  // than restructured under time pressure in a way that risks a real
+  // hydration bug.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     const existing = loadLeads();
     if (existing.length > 0) {
@@ -63,6 +73,7 @@ export function useLeads() {
     saveLeads(skeletons);
     setInitialized(true);
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const persist = useCallback((next: Lead[]) => {
     setLeads(next);

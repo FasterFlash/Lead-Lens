@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Standalone CommonJS utility script, not part of the app bundle —
+    // intentionally plain require()/.cjs, not subject to the app's
+    // TypeScript/ESM lint rules.
+    "scripts/**",
   ]),
 ]);
 
