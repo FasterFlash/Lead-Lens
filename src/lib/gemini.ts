@@ -35,10 +35,17 @@ export const MODELS = {
 // One fallback model each, tried only if the primary fails (overload,
 // quota, transient 5xx). Deliberately a SINGLE fallback, not a cascade
 // across providers — fewer moving parts to debug, and this is a
-// quota/availability hedge, not a resilience architecture. Analysis and
-// chat use opposite primary/fallback orders so the two features spread
-// load across both models instead of racing for the same one first.
+// quota/availability hedge, not a resilience architecture.
+//
+// Analysis needs real reasoning (structured output, judging priority), so
+// its fallback is still a full "flash" model, not a lite one — 3.7-flash is
+// a smaller step down from 3.8-flash than 3.5-flash-lite was. Chat is a
+// lighter task and 3.5-flash-lite is already more than enough, so its
+// fallback is another lite model (3.1-flash-lite) rather than a heavier one.
+// Net effect: analysis and chat now draw from four entirely separate
+// models with no overlap, so neither feature's primary+fallback pair
+// competes with the other's quota at all.
 export const FALLBACK_MODELS = {
-  analysis: process.env.GEMINI_MODEL_ANALYSIS_FALLBACK || "gemini-3.5-flash-lite",
-  chat: process.env.GEMINI_MODEL_CHAT_FALLBACK || "gemini-3.8-flash",
+  analysis: process.env.GEMINI_MODEL_ANALYSIS_FALLBACK || "gemini-3.7-flash",
+  chat: process.env.GEMINI_MODEL_CHAT_FALLBACK || "gemini-3.1-flash-lite",
 };
