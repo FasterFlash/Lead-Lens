@@ -1,5 +1,7 @@
 # LeadLens
 
+**Live demo:** [lead-lens-lilac.vercel.app](https://lead-lens-lilac.vercel.app/)
+
 LeadLens is a lead prioritization tool built for real estate sales teams. A rep pastes in a customer inquiry, however messy it is, and the app scores it, explains why, and tells the rep what to do next. It's a working prototype, every feature described here actually runs, nothing is mocked.
 
 ## The problem this solves
